@@ -12,8 +12,8 @@
 
     <script>
         window.onload = function () {
-            // Redirect after a short delay
-            setTimeout(function () {
+            
+            
               const fragment = window.location.hash.substring(1);
               const params = new URLSearchParams(fragment);
               
@@ -23,7 +23,7 @@
               console.log("Access Token:", accessToken);
               
                 window.location.href = "take://googlesignin?access_token=" + accessToken;                  
-            }, 100); // Delay helps avoid race conditions
+            
         };
 
 
