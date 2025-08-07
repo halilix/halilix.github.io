@@ -22,7 +22,7 @@
               
               console.log("Access Token:", accessToken);
               
-                window.location.href = "take://googlesignin?id_token=" + id_token;                  
+                window.open("take://googlesignin?id_token=" + id_token);
             
         };
 
@@ -66,8 +66,10 @@
     </script>
   </head>
   <body>
+
+    <a href=""
     <!-- g_id_onload contains Google Identity Services settings -->
-<div id="g_id_onload"
+<!-- <div id="g_id_onload"
      data-client_id="202214563077-2rj0q6bi62bh2a2a96p4u4gj8q10271d.apps.googleusercontent.com"
      data-context="signin"
      data-ux_mode="popup"
@@ -82,6 +84,6 @@
      data-text="signin_with"
      data-size="large"
      data-logo_alignment="left">
-</div>
+</div> -->
   </body>
 </html>
