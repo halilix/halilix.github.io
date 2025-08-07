@@ -2,26 +2,91 @@
 <html lang="en">
 <head>
   <meta name="google-site-verification" content="f7V6kUpkiUu0MahG_VMajRNYzObZekIUSW6TXWHRGe8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://accounts.google.com/gsi/client" async></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #4285F4;
+      --primary-color-hover: #357ae8;
+      --background-color: #f0f2f5;
+      --card-background: #ffffff;
+      --text-color: #333333;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
     body {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
     }
-    button {
-      padding: 10px 20px;
+    
+    #redirect-container {
+      display: none; /* Hidden by default */
+      text-align: center;
+      background-color: var(--card-background);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px var(--shadow-color);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    p {
       font-size: 16px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    #launchApp {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+    }
+    
+    #launchApp:hover {
+      background-color: var(--primary-color-hover);
+      transform: translateY(-2px);
+    }
+
+    #launchApp:active {
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
 
-  <button id="launchApp">Launch App</button>
+  <div id="redirect-container">
+    <h1>You've signed in successfully!</h1>
+    <p>Click the button below to launch the app and continue.</p>
+    <button id="launchApp">Launch App</button>
+  </div>
 
   <script>
     let id_token = null;
+    const redirectContainer = document.getElementById("redirect-container");
+    const launchAppButton = document.getElementById("launchApp");
 
     window.onload = function () {
       const fragment = window.location.hash.substring(1);
@@ -29,38 +94,24 @@
       id_token = params.get("id_token");
 
       if (id_token) {
-        console.log("ID Token:", id_token);
-        document.getElementById("launchApp").style.display = "block";
+        console.log("ID Token found.");
+        redirectContainer.style.display = "block"; // Show the container
       } else {
         console.log("No ID token found in URL fragment.");
-        document.getElementById("launchApp").style.display = "none";
+        redirectContainer.style.display = "none"; // Hide if no token
+        // Optional: display a message saying "Login failed" or similar
       }
     };
 
-    document.getElementById("launchApp").addEventListener("click", function () {
+    launchAppButton.addEventListener("click", function () {
       if (id_token) {
         window.location.href = "take://googlesignin?id_token=" + encodeURIComponent(id_token);
       }
     });
 
-    function decodeJWT(token) {
-      let base64Url = token.split(".")[1];
-      let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      let jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map(function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
-    }
-
-    function handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-      window.parent.postMessage({ type: 'googlesignin', token: response.credential }, '*');
-    }
+    // The other functions (decodeJWT, handleCredentialResponse) are not used in this page's logic,
+    // so they are not included in the updated code for clarity and to keep the file clean.
+    // They may be useful on a different page for handling the sign-in response.
   </script>
 
 </body>
