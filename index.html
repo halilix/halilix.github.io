@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,17 +25,14 @@
       height: 100vh;
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-color: var(--background-color);
+      background-color: var(--card-background);
       color: var(--text-color);
     }
     
     #redirect-container {
-      display: none; /* Hidden by default */
       text-align: center;
-      background-color: var(--card-background);
+	
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px var(--shadow-color);
       max-width: 400px;
       width: 90%;
     }
@@ -98,7 +96,7 @@
         redirectContainer.style.display = "block"; // Show the container
       } else {
         console.log("No ID token found in URL fragment.");
-        redirectContainer.style.display = "none"; // Hide if no token
+
         // Optional: display a message saying "Login failed" or similar
       }
     };
