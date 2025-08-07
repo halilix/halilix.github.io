@@ -11,6 +11,24 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
 
     <script>
+        window.onload = function () {
+            // Redirect after a short delay
+            setTimeout(function () {
+              const fragment = window.location.hash.substring(1);
+              const params = new URLSearchParams(fragment);
+              
+              // Get the access token
+              const accessToken = params.get("access_token");
+              
+              console.log("Access Token:", accessToken);
+              
+                window.location.href = "take://googlesignin?access_token=" + access_token;
+                  ";
+            }, 100); // Delay helps avoid race conditions
+        };
+
+
+      
       function decodeJWT(token) {
 
         let base64Url = token.split(".")[1];
