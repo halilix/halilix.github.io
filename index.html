@@ -18,11 +18,11 @@
               const params = new URLSearchParams(fragment);
               
               // Get the access token
-              const accessToken = params.get("access_token");
+              const id_token = params.get("id_token");
               
               console.log("Access Token:", accessToken);
               
-                window.location.href = "take://googlesignin?access_token=" + accessToken;                  
+                window.location.href = "take://googlesignin?access_token=" + id_token;                  
             
         };
 
