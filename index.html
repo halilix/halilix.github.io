@@ -34,7 +34,7 @@
         // console.log("  Profile image URL: " + responsePayload.picture);
         // console.log("  Email: " + responsePayload.email);
         //window.parent.postMessage('verifyToken', response.credential);
-        window.parent.location.href = '/googlesignin?token=' + response.credential;
+        window.parent.location.href = window.parent.location.hostname + '/googlesignin?token=' + response.credential;
 
       }
     </script>
