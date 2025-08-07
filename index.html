@@ -1,89 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <style>
-    *
-    {
-        margin: auto auto !important;
+<head>
+  <meta name="google-site-verification" content="f7V6kUpkiUu0MahG_VMajRNYzObZekIUSW6TXWHRGe8" />
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    </style>
-    <meta name="google-site-verification" content="f7V6kUpkiUu0MahG_VMajRNYzObZekIUSW6TXWHRGe8" />
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
 
-    <script>
-        window.onload = function () {
-            
-            
-              const fragment = window.location.hash.substring(1);
-              const params = new URLSearchParams(fragment);
-              
-              // Get the access token
-              const id_token = params.get("id_token");
-              
-              console.log("Access Token:", accessToken);
-              
-                window.open("take://googlesignin?id_token=" + id_token);
-            
-        };
+  <button id="launchApp">Launch App</button>
 
+  <script>
+    let id_token = null;
 
-      
-      function decodeJWT(token) {
+    window.onload = function () {
+      const fragment = window.location.hash.substring(1);
+      const params = new URLSearchParams(fragment);
+      id_token = params.get("id_token");
 
-        let base64Url = token.split(".")[1];
-        let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        let jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map(function (c) {
-              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join("")
-        );
-        return JSON.parse(jsonPayload);
+      if (id_token) {
+        console.log("ID Token:", id_token);
+        document.getElementById("launchApp").style.display = "block";
+      } else {
+        console.log("No ID token found in URL fragment.");
+        document.getElementById("launchApp").style.display = "none";
       }
+    };
 
-      function handleCredentialResponse(response) {
-
-        console.log("Encoded JWT ID token: " + response.credential);
-
-        // const responsePayload = decodeJWT(response.credential);
-
-        // console.log("Decoded JWT ID token fields:");
-        // console.log("  Full Name: " + responsePayload.name);
-        // console.log("  Given Name: " + responsePayload.given_name);
-        // console.log("  Family Name: " + responsePayload.family_name);
-        // console.log("  Unique ID: " + responsePayload.sub);
-        // console.log("  Profile image URL: " + responsePayload.picture);
-        // console.log("  Email: " + responsePayload.email);
-        //window.parent.postMessage('verifyToken', response.credential);
-        window.parent.postMessage({ type: 'googlesignin', token: response.credential }, '*');
-
+    document.getElementById("launchApp").addEventListener("click", function () {
+      if (id_token) {
+        window.location.href = "take://googlesignin?id_token=" + encodeURIComponent(id_token);
       }
+    });
 
+    function decodeJWT(token) {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      let jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    }
 
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+      window.parent.postMessage({ type: 'googlesignin', token: response.credential }, '*');
+    }
+  </script>
 
-    </script>
-  </head>
-  <body>
-
-    <a href=""
-    <!-- g_id_onload contains Google Identity Services settings -->
-<!-- <div id="g_id_onload"
-     data-client_id="202214563077-2rj0q6bi62bh2a2a96p4u4gj8q10271d.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false">
-</div>
-
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div> -->
-  </body>
+</body>
 </html>
