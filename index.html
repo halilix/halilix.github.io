@@ -2,87 +2,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="f7V6kUpkiUu0MahG_VMajRNYzObZekIUSW6TXWHRGe8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://accounts.google.com/gsi/client" async></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #4285F4;
-      --primary-color-hover: #357ae8;
-      --background-color: #f0f2f5;
-      --card-background: #ffffff;
-      --text-color: #333333;
-      --shadow-color: rgba(0, 0, 0, 0.1);
-    }
+    <meta name="google-site-verification" content="f7V6kUpkiUu0MahG_VMajRNYzObZekIUSW6TXWHRGe8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --primary-color-hover: #357ae8;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--card-background);
-      color: var(--text-color);
-    }
-    
-    #redirect-container {
-      text-align: center;
-	  display: none;
-      padding: 40px;
-      max-width: 400px;
-      width: 90%;
-    }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
 
-    h1 {
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
+        #redirect-container {
+            text-align: center;
+            display: none;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+        }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 25px;
-    }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
 
-    #launchApp {
-      width: 100%;
-      padding: 15px 20px;
-      font-size: 18px;
-      font-weight: 600;
-      color: white;
-      background-color: var(--primary-color);
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
-    }
-    
-    #launchApp:hover {
-      background-color: var(--primary-color-hover);
-      transform: translateY(-2px);
-    }
+        p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+        }
 
-    #launchApp:active {
-      transform: translateY(0);
-    }
-  </style>
+        #launchApp {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+        }
+
+            #launchApp:hover {
+                background-color: var(--primary-color-hover);
+                transform: translateY(-2px);
+            }
+
+            #launchApp:active {
+                transform: translateY(0);
+            }
+    </style>
 </head>
 <body>
 
-  <div id="redirect-container">
-    <h1>You've signed in successfully!</h1>
-    <p>Click the button below to launch the app and continue.</p>
-    <button id="launchApp">Launch App</button>
-  </div>
+    <div id="redirect-container">
+        <h1>You've signed in successfully!</h1>
+        <p>Click the button below to launch the app and continue.</p>
+        <button id="launchApp">Launch App</button>
+    </div>
 
-  <script>
+    <script>
     let id_token = null;
+    let code = null;
     const redirectContainer = document.getElementById("redirect-container");
     const launchAppButton = document.getElementById("launchApp");
 
@@ -90,11 +91,14 @@
       const fragment = window.location.hash.substring(1);
       const params = new URLSearchParams(fragment);
       id_token = params.get("id_token");
-
-      if (id_token) {
+      code = params.get("code");
+      if (id_token) 
+      {
         console.log("ID Token found.");
         redirectContainer.style.display = "block"; // Show the container
-      } else {
+      }
+      else
+      {
         console.log("No ID token found in URL fragment.");
 
         // Optional: display a message saying "Login failed" or similar
@@ -102,15 +106,20 @@
     };
 
     launchAppButton.addEventListener("click", function () {
-      if (id_token) {
+      if (id_token)
+      {
         window.location.href = "take://googlesignin?id_token=" + encodeURIComponent(id_token);
+      }
+      if (code)
+      {
+          window.location.href = "take://amazonsignin?code=" + encodeURIComponent(code);
       }
     });
 
     // The other functions (decodeJWT, handleCredentialResponse) are not used in this page's logic,
     // so they are not included in the updated code for clarity and to keep the file clean.
     // They may be useful on a different page for handling the sign-in response.
-  </script>
+    </script>
 
 </body>
 </html>
