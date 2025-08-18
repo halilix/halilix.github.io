@@ -92,7 +92,7 @@
       const params = new URLSearchParams(fragment);
       id_token = params.get("id_token");
       code = params.get("code");
-      if (id_token) 
+      if (id_token || code) 
       {
         console.log("ID Token found.");
         redirectContainer.style.display = "block"; // Show the container
