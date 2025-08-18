@@ -94,14 +94,7 @@
       code = params.get("code");
       if (id_token || code) 
       {
-        console.log("ID Token found.");
         redirectContainer.style.display = "block"; // Show the container
-      }
-      else
-      {
-        console.log("No ID token found in URL fragment.");
-
-        // Optional: display a message saying "Login failed" or similar
       }
     };
 
@@ -116,9 +109,6 @@
       }
     });
 
-    // The other functions (decodeJWT, handleCredentialResponse) are not used in this page's logic,
-    // so they are not included in the updated code for clarity and to keep the file clean.
-    // They may be useful on a different page for handling the sign-in response.
     </script>
 
 </body>
